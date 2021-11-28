@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+
+  .container {
+    width: 300px;
+    height: 510px;
+    border: 1px solid #efefef;
+    text-align: center;
+
+    .logo {
+      background-color: #F5F5F5;
+      height: 210px;
+      border-radius: 0 0 125px 125px;
+      padding: 12px 25px 0;
+
+      .paragraph {
+        height: 49px;
+        margin-top: 30px;
+        font: normal normal bold 16px/21px Red Hat Display;
+        letter-spacing: 0px;
+        color: #0A2C48;
+        text-transform: uppercase;
+        opacity: 1;
+      }
+    }
+
+    .form-container {
+      padding: 29px 25px 34px;
+
+      .select-container {
+        .select-item {
+          &:first-child {
+            margin-bottom: 20px;
+          }
+
+          &:last-child {
+            margin-top: 20px;
+          }
+
+          .select {
+            width: 100%;
+            height: 42px;
+            border-radius: 4px;
+            background-color: #F5F5F5;
+
+            &::after {
+              right: 20px;
+            }
+          }
+        }
+      }
+
+      .submit {
+        margin-top: 33px;
+        
+        .btn {
+          height: 38px;
+          width: 100%;
+          background: #FFCC00 url("../../assets/baseline-arrow_forward-24px.png") 90% 50% no-repeat padding-box;
+          box-shadow: 0px 1px 3px #00000033;
+          border: none;
+          border-radius: 20px;
+          letter-spacing: 1.34px;
+          color: #000000;
+          opacity: 1;
+          text-align: left;
+          padding-left: 31px;
+        }
+      }
+    }
+  }
+}
