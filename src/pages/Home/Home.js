@@ -2,43 +2,63 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { getData } from '../../components/Api/Api';
 import { Button } from '@mui/material';
 
 import logo from '../../assets/Logotyp-Punkta.png';
 
+import { exampleBrands } from '../../data/brands';
+import { exampleModels } from '../../data/models';
+import { exampleFuels } from '../../data/fuels';
+
 import './HomeContent.scss';
 
+// brands -> https://api-dev.mfind.pl/cars
+// models -> https://api-dev.mfind.pl/cars/${brand}/models
+// fuels  -> https://api-dev.mfind.pl/cars/${brand}/models/${model}/fuels/
+
 export const Home = () => {
-  const [data, setData] = useState();
   const [appParams, setAppParams] = useState({
     'brand': '',
     'model': '',
     'fuel': ''
-  })
+  });
+  const [brands, setBrands] = useState([]);
+  const [models, setModels] = useState([]);
+  const [fuels, setFuels] = useState([]);
 
-  // const getData = () => {
-  //   axios.get('https://api-dev.mfind.pl/cars', {
-  //     headers: {
-  //       'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
-  //     }
-  //   }).then(response => {
-  //     console.log('Response', response);
-  //     setData(response)
-  //   })
-  // }
-
+  // Decide what API call should be executed MAY fix to SWITCH...
   // const getApiData = () => {
-  //   getData()
-  //     .then(response => {
-  //       console.log('Response', response);
-  //       // setData(response.data);
-  //     })
+  //   if (appParams.brand !== '' && appParams.model !== '' && appParams.fuel !== '') {
+  //     axios.get(`https://api-dev.mfind.pl/cars/${brand}/models/${model}/fuels/`)
+  //       .then(response => {
+  //         setFuels(response)
+  //       })
+  //   } else if (appParams.brand !== '' && appParams.model !== '') {
+  //     axios.get(`https://api-dev.mfind.pl/cars/${brand}/models`)
+  //       .then(response => {
+  //         setModels(response)
+  //       })
+  //   } else {
+  //     axios.get(`https://api-dev.mfind.pl/cars`)
+  //       .then(response => {
+  //         setBrands(response)
+  //       })
+  //   }
   // }
 
-  // useEffect(() => {
-  //   getData();
-  // }, [])
+  const getData = () => {
+    axios.get('https://api-dev.mfind.pl/cars', {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('Response', response);
+    })
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const handleSelect = (e) => {
     const { name, value } = e.target;
@@ -46,7 +66,7 @@ export const Home = () => {
       ...appParams,
       [name]: value
     })
-  }
+  };
 
   return (
     <div className='wrapper'>
@@ -62,32 +82,49 @@ export const Home = () => {
         <form className='form-container'>
           <div className='select-container'>
             <div className='select-item'>
-              <select className='select' name='brand' onChange={handleSelect}>
-                <option value='ABARTH'>ABARTH</option>
-                <option value='ACURA'>ACURA</option>
-                <option value='ALFA ROMEO'>ALFA ROMEO</option>
-                <option value='ALPINE'>ALPINE</option>
-                <option value='ASTON MARTIN'>ASTON MARTIN</option>
+              {/* Map BRANDS */}
+              <select
+                className='select'
+                name='brand'
+                onChange={handleSelect}
+              >
+                {exampleBrands.map(brand => (
+                  <option value={brand.make_name} key={`${brand.make_code}`}>
+                    {brand.make_name}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className='select-item'>
-              <select className='select' name='model' onChange={handleSelect}>
-                <option value='145'>145</option>
-                <option value='146'>146</option>
-                <option value='147'>147</option>
-                <option value='155'>155</option>
-                <option value='156'>156</option>
+              {/* Map MODELS */}
+              <select
+                className='select'
+                name='model'
+                onChange={handleSelect}
+                disabled={models.length === 0}
+              >
+                {models.map((model, index) => (
+                  <option value={model.model_name} key={`Element-${index}`}>
+                    {model.model_name}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className='select-item'>
-              <select className='select' name='fuel' onChange={handleSelect}>
-                <option value='2010'>2010</option>
-                <option value='2009'>2009</option>
-                <option value='2008'>2008</option>
-                <option value='2007'>2007</option>
-                <option value='2006'>2006</option>
+              {/* Map FUELS */}
+              <select
+                className='select'
+                name='fuel'
+                onChange={handleSelect}
+                disabled={fuels.length === 0}
+              >
+                {fuels.map(fuel => (
+                  <option value={fuel.fuel_name} key={`${fuel.fuel_code}`}>
+                    {fuel.fuel_name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
