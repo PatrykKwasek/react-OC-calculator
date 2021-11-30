@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const baseUrl = 'https://api-dev.mfind.pl/cars';
+const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
 
 export const getData = path => {
   return axios.get(`${baseUrl}${path}`, {
     headers: {
-      'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      'Authorization': `${process.env.REACT_APP_AUTHORIZATION}`
     }
   });
 }
