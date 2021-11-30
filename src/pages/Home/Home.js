@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { Button } from '@mui/material';
-
 import logo from '../../assets/Logotyp-Punkta.png';
+
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { exampleBrands } from '../../data/brands';
 import { exampleModels } from '../../data/models';
@@ -82,50 +83,35 @@ export const Home = () => {
         <form className='form-container'>
           <div className='select-container'>
             <div className='select-item'>
-              {/* Map BRANDS */}
-              <select
+              <Autocomplete
+                disablePortal
+                options={exampleBrands}
+                getOptionLabel={option => option.make_name}
+                renderInput={(params) => <TextField {...params} label="Marka" />}
                 className='select'
-                name='brand'
-                onChange={handleSelect}
-              >
-                {exampleBrands.map(brand => (
-                  <option value={brand.make_name} key={`${brand.make_code}`}>
-                    {brand.make_name}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             <div className='select-item'>
               {/* Map MODELS */}
-              <select
+              <Autocomplete
+                disablePortal
+                options={exampleModels}
+                getOptionLabel={option => option.model_name}
+                renderInput={(params) => <TextField {...params} label="Model" />}
                 className='select'
-                name='model'
-                onChange={handleSelect}
-                disabled={models.length === 0}
-              >
-                {models.map((model, index) => (
-                  <option value={model.model_name} key={`Element-${index}`}>
-                    {model.model_name}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             <div className='select-item'>
               {/* Map FUELS */}
-              <select
+              <Autocomplete
+                disablePortal
+                options={exampleFuels}
+                getOptionLabel={option => option.fuel_name}
+                renderInput={(params) => <TextField {...params} label="Typ paliwa" />}
                 className='select'
-                name='fuel'
-                onChange={handleSelect}
-                disabled={fuels.length === 0}
-              >
-                {fuels.map(fuel => (
-                  <option value={fuel.fuel_name} key={`${fuel.fuel_code}`}>
-                    {fuel.fuel_name}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
           </div>
 
