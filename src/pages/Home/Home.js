@@ -7,45 +7,17 @@ import logo from '../../assets/Logotyp-Punkta.png';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import { exampleBrands } from '../../data/brands';
-import { exampleModels } from '../../data/models';
-import { exampleFuels } from '../../data/fuels';
-
 import './HomeContent.scss';
 
-// brands -> https://api-dev.mfind.pl/cars
-// models -> https://api-dev.mfind.pl/cars/${brand}/models
-// fuels  -> https://api-dev.mfind.pl/cars/${brand}/models/${model}/fuels/
-
 export const Home = () => {
-  const [appParams, setAppParams] = useState({
-    'brand': '',
-    'model': '',
-    'fuel': ''
-  });
+  const [brandParam, setBrandParam] = useState('');
   const [brands, setBrands] = useState([]);
-  const [models, setModels] = useState([]);
-  const [fuels, setFuels] = useState([]);
 
-  // Decide what API call should be executed MAY fix to SWITCH...
-  // const getApiData = () => {
-  //   if (appParams.brand !== '' && appParams.model !== '' && appParams.fuel !== '') {
-  //     axios.get(`https://api-dev.mfind.pl/cars/${brand}/models/${model}/fuels/`)
-  //       .then(response => {
-  //         setFuels(response)
-  //       })
-  //   } else if (appParams.brand !== '' && appParams.model !== '') {
-  //     axios.get(`https://api-dev.mfind.pl/cars/${brand}/models`)
-  //       .then(response => {
-  //         setModels(response)
-  //       })
-  //   } else {
-  //     axios.get(`https://api-dev.mfind.pl/cars`)
-  //       .then(response => {
-  //         setBrands(response)
-  //       })
-  //   }
-  // }
+  const [modelParam, setModelParam] = useState('');
+  const [models, setModels] = useState([]);
+
+  const [fuelParam, setFuelParam] = useState('');
+  const [fuels, setFuels] = useState([]);
 
   const getData = () => {
     axios.get('https://api-dev.mfind.pl/cars', {
@@ -53,21 +25,57 @@ export const Home = () => {
         'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
       }
     }).then(response => {
-      console.log('Response', response);
+      console.log('useEffect response - ', response.data);
+      setBrands(response.data);
     })
   }
 
   useEffect(() => {
-    getData()
+    getData();
   }, [])
 
-  const handleSelect = (e) => {
-    const { name, value } = e.target;
-    setAppParams({
-      ...appParams,
-      [name]: value
+  const getApiData = async () => {
+    await axios.get(`https://api-dev.mfind.pl/cars/${brandParam}/models`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('MODELS', response);
     })
-  };
+  }
+
+  const handleBrand = (event, values) => {
+    setBrandParam(values.make_name);
+    setModelParam('');
+    setFuelParam('');
+
+    axios.get(`https://api-dev.mfind.pl/cars/${values.make_name}/models`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('GET MODELS', response);
+      setModels(response.data);
+    })
+  }
+
+  const handleModel = (event, values) => {
+    setModelParam(values.model_name);
+    setFuelParam('');
+
+    axios.get(`https://api-dev.mfind.pl/cars/${brandParam}/models/${values.model_name}/fuels/`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('GET MODELS', response);
+      setFuels(response.data);
+    })
+  }
+
+  const handleFuel = (event, values) => {
+    setFuelParam(values.fuel_name);
+  }
 
   return (
     <div className='wrapper'>
@@ -84,33 +92,36 @@ export const Home = () => {
           <div className='select-container'>
             <div className='select-item'>
               <Autocomplete
-                disablePortal
-                options={exampleBrands}
+                options={brands}
+                inputValue={brandParam}
                 getOptionLabel={option => option.make_name}
+                onChange={handleBrand}
                 renderInput={(params) => <TextField {...params} label="Marka" />}
                 className='select'
               />
             </div>
 
             <div className='select-item'>
-              {/* Map MODELS */}
               <Autocomplete
-                disablePortal
-                options={exampleModels}
+                options={models}
+                inputValue={modelParam}
                 getOptionLabel={option => option.model_name}
+                onChange={handleModel}
                 renderInput={(params) => <TextField {...params} label="Model" />}
                 className='select'
+                disabled={models.length === 0}
               />
             </div>
 
             <div className='select-item'>
-              {/* Map FUELS */}
               <Autocomplete
-                disablePortal
-                options={exampleFuels}
+                options={fuels}
+                inputValue={fuelParam}
                 getOptionLabel={option => option.fuel_name}
+                onChange={handleFuel}
                 renderInput={(params) => <TextField {...params} label="Typ paliwa" />}
                 className='select'
+                disabled={fuels.length === 0}
               />
             </div>
           </div>
