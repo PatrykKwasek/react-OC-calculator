@@ -7,8 +7,6 @@ import logo from '../../assets/Logotyp-Punkta.png';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import { getData } from '../../components/Api/Api';
-
 import './HomeContent.scss';
 
 export const Home = () => {
@@ -21,38 +19,58 @@ export const Home = () => {
   const [fuelParam, setFuelParam] = useState('');
   const [fuels, setFuels] = useState([]);
 
-  const getBrands = () => {
-    getData('').then(response => {
+  const getData = () => {
+    axios.get('https://api-dev.mfind.pl/cars', {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
       console.log('useEffect response - ', response.data);
       setBrands(response.data);
     })
   }
 
   useEffect(() => {
-    getBrands();
+    getData();
   }, [])
+
+  const getApiData = async () => {
+    await axios.get(`https://api-dev.mfind.pl/cars/${brandParam}/models`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('MODELS', response);
+    })
+  }
 
   const handleBrand = (event, values) => {
     setBrandParam(values.make_name);
     setModelParam('');
     setFuelParam('');
 
-    getData(`${values.make_name}/models`)
-      .then(response => {
-        console.log('GET MODELS', response);
-        setModels(response.data);
-      })
+    axios.get(`https://api-dev.mfind.pl/cars/${values.make_name}/models`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('GET MODELS', response);
+      setModels(response.data);
+    })
   }
 
   const handleModel = (event, values) => {
     setModelParam(values.model_name);
     setFuelParam('');
 
-    getData(`${brandParam}/models/${values.model_name}/fuels/`)
-      .then(response => {
-        console.log('GET FUELS', response);
-        setFuels(response.data);
-      })
+    axios.get(`https://api-dev.mfind.pl/cars/${brandParam}/models/${values.model_name}/fuels/`, {
+      headers: {
+        'Authorization': 'Basic YXV0a2FfYXBpOmF1dGthX2FwaV8yMDE5'
+      }
+    }).then(response => {
+      console.log('GET MODELS', response);
+      setFuels(response.data);
+    })
   }
 
   const handleFuel = (event, values) => {
