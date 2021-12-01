@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 import { getData } from '../../components/Api/Api';
 
@@ -41,7 +42,6 @@ export const Home = () => {
 
     setBrandParam(values);
     setModelParam('');
-    setModels([])
     setFuelParam('');
     setFuels([])
   }
@@ -54,7 +54,6 @@ export const Home = () => {
 
     setModelParam(values);
     setFuelParam('');
-    setFuels([])
   }
 
   return (
@@ -139,7 +138,14 @@ export const Home = () => {
           </div>
 
           <div className='submit'>
-            <button className='btn'>OBLICZ SKŁADKĘ</button>
+            <Button
+              variant="contained"
+              href={`https://punkta.pl/ubezpieczenie-oc-ac/kalkulator-oc-ac?make_name=${brandInputParam}&model_name=${modelInputParam}`}
+              // className='btn'
+              disabled={!brandInputParam || !modelInputParam || !fuelInputParam}
+            >
+              OBLICZ SKŁADKĘ
+            </Button>
           </div>
         </form>
       </div>
