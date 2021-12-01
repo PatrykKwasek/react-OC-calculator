@@ -34,24 +34,27 @@ export const Home = () => {
   }, [])
 
   const handleBrand = (event, values) => {
-    setBrandParam(values);
-    setModelParam('');
-    setFuelParam('');
-
     getData(`${values.make_name}/models`).then(response => {
       console.log('GET MODELS', response);
       setModels(response.data);
-    })
+    });
+
+    setBrandParam(values);
+    setModelParam('');
+    setModels([])
+    setFuelParam('');
+    setFuels([])
   }
 
   const handleModel = (event, values) => {
-    setModelParam(values);
-    setFuelParam('');
-
     getData(`${brandInputParam}/models/${values.model_name}/fuels/`).then(response => {
       console.log('GET MODELS', response);
       setFuels(response.data);
-    })
+    });
+
+    setModelParam(values);
+    setFuelParam('');
+    setFuels([])
   }
 
   return (
@@ -72,16 +75,6 @@ export const Home = () => {
                 disableClearable
                 value={brandParam}
                 onChange={handleBrand}
-                // onChange={(event, newValue) => {
-                //   setBrandParam(newValue);
-                //   setModelParam('');
-                //   setFuelParam('');
-
-                //   getData(`${newValue.make_name}/models`).then(response => {
-                //     console.log('GET MODELS', response);
-                //     setModels(response.data);
-                //   })
-                // }}
                 inputValue={brandInputParam}
                 onInputChange={(event, newInputValue) => {
                   setBrandInputParam(newInputValue);
@@ -103,15 +96,6 @@ export const Home = () => {
                 disableClearable
                 value={modelParam}
                 onChange={handleModel}
-                // onChange={(event, newValue) => {
-                //   setModelParam(newValue);
-                //   setFuelParam('');
-
-                //   getData(`${brandInputParam}/models/${newValue.model_name}/fuels/`).then(response => {
-                //     console.log('GET MODELS', response);
-                //     setFuels(response.data);
-                //   })
-                // }}
                 inputValue={modelInputParam}
                 onInputChange={(event, newInputValue) => {
                   setModelInputParam(newInputValue);
