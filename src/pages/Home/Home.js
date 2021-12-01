@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import axios from 'axios';
-
-import logo from '../../assets/Logotyp-Punkta.png';
-
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 import { getData } from '../../components/Api/Api';
 
+import logo from '../../assets/Logotyp-Punkta.png';
 import './HomeContent.scss';
 
 export const Home = () => {
@@ -58,6 +55,10 @@ export const Home = () => {
     setFuelParam(values.fuel_name);
   }
 
+  const handleAutocomplete = (event, values) => {
+    setBrandParam(values.make_name)
+  }
+
   return (
     <div className='wrapper'>
       <div className='container'>
@@ -73,36 +74,54 @@ export const Home = () => {
           <div className='select-container'>
             <div className='select-item'>
               <Autocomplete
-                options={brands}
+                disableClearable
                 inputValue={brandParam}
-                getOptionLabel={option => option.make_name}
                 onChange={handleBrand}
-                renderInput={(params) => <TextField {...params} label="Marka" />}
+                options={brands}
                 className='select'
+                getOptionLabel={option => option.make_name || ''}
+                renderInput={(params) =>
+                  <TextField
+                    {...params}
+                    label="Marka"
+                  />
+                }
               />
             </div>
 
             <div className='select-item'>
               <Autocomplete
-                options={models}
+                disableClearable
                 inputValue={modelParam}
-                getOptionLabel={option => option.model_name}
                 onChange={handleModel}
-                renderInput={(params) => <TextField {...params} label="Model" />}
+                options={models}
                 className='select'
                 disabled={models.length === 0}
+                getOptionLabel={option => option.model_name || ''}
+                renderInput={(params) =>
+                  <TextField
+                    {...params}
+                    label="Model"
+                  />
+                }
               />
             </div>
 
             <div className='select-item'>
               <Autocomplete
-                options={fuels}
+                disableClearable
                 inputValue={fuelParam}
-                getOptionLabel={option => option.fuel_name}
                 onChange={handleFuel}
-                renderInput={(params) => <TextField {...params} label="Typ paliwa" />}
+                options={fuels}
                 className='select'
                 disabled={fuels.length === 0}
+                getOptionLabel={option => option.fuel_name || ''}
+                renderInput={(params) =>
+                  <TextField
+                    {...params}
+                    label="Typ paliwa"
+                  />
+                }
               />
             </div>
           </div>
