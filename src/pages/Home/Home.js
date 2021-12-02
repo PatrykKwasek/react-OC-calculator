@@ -10,28 +10,42 @@ import logo from '../../assets/Logotyp-Punkta.png';
 import './HomeContent.scss';
 
 export const Home = () => {
-  const [brandParam, setBrandParam] = useState('');
+  const [brandParam, setBrandParam] = useState({make_code: "351", make_name: "ACURA"});
   const [brandInputParam, setBrandInputParam] = useState('');
   const [brands, setBrands] = useState([]);
 
-  const [modelParam, setModelParam] = useState('');
+  const [modelParam, setModelParam] = useState({model_name: "Integra"});
   const [modelInputParam, setModelInputParam] = useState('');
   const [models, setModels] = useState([]);
 
-  const [fuelParam, setFuelParam] = useState('');
+  const [fuelParam, setFuelParam] = useState({});
   const [fuelInputParam, setFuelInputParam] = useState('');
   const [fuels, setFuels] = useState([]);
 
-  const getBrands = () => {
+  const getInitialData = () => {
     getData('')
       .then(response => {
         console.log('useEffect response - ', response.data);
         setBrands(response.data);
       })
+
+    if (brandParam.make_name) {
+      getData(`${brandParam.make_name}/models`).then(response => {
+        console.log('GET MODELS', response);
+        setModels(response.data);
+      });
+    }
+
+    if (modelParam.model_name) {
+      getData(`${brandParam.make_name}/models/${modelParam.model_name}/fuels/`).then(response => {
+        console.log('GET FUELS', response);
+        setFuels(response.data);
+      });
+    }
   }
 
   useEffect(() => {
-    getBrands();
+    getInitialData();
   }, [])
 
   const handleBrand = (event, values) => {
@@ -48,7 +62,7 @@ export const Home = () => {
 
   const handleModel = (event, values) => {
     getData(`${brandInputParam}/models/${values.model_name}/fuels/`).then(response => {
-      console.log('GET MODELS', response);
+      console.log('GET FUELS', response);
       setFuels(response.data);
     });
 
