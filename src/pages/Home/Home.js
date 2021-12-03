@@ -9,6 +9,7 @@ export const Home = () => {
   const [brandInputParam, setBrandInputParam] = useState('');
   const [brands, setBrands] = useState([]);
 
+  // const [modelParam, setModelParam] = useState({model_name: ""});
   const [modelParam, setModelParam] = useState({model_name: "Integra"});
   const [modelInputParam, setModelInputParam] = useState('');
   const [models, setModels] = useState([]);
@@ -16,6 +17,13 @@ export const Home = () => {
   const [fuelParam, setFuelParam] = useState({fuel_code: "", fuel_name: ""});
   const [fuelInputParam, setFuelInputParam] = useState('');
   const [fuels, setFuels] = useState([]);
+
+  const [themeColor, setThemeColor] = useState('yellow');
+
+  const setColor = (e) => {
+    const {value} = e.target;
+    setThemeColor(value);
+  }
 
   const getInitialData = () => {
     getData('')
@@ -78,6 +86,8 @@ export const Home = () => {
       fuelInputParam={fuelInputParam}
       setFuelInputParam={setFuelInputParam}
       fuels={fuels}
+      setColor={setColor}
+      themeColor={themeColor}
     />
   )
 }

@@ -24,11 +24,13 @@ export const HomeContent = ({
   fuelInputParam,
   setFuelInputParam,
   fuels,
+  themeColor,
+  setColor
 }) => {
   return (
     <div className='wrapper'>
       <div className='container'>
-        <div className='logo'>
+        <div className={`header ${themeColor}`}>
           <img src={logo} alt='logo' />
 
           <div className='paragraph'>
@@ -54,6 +56,7 @@ export const HomeContent = ({
                   <TextField
                     {...params}
                     label="Marka"
+                    size='small'
                   />
                 }
               />
@@ -76,6 +79,7 @@ export const HomeContent = ({
                   <TextField
                     {...params}
                     label="Model"
+                    size='small'
                   />
                 }
               />
@@ -100,6 +104,7 @@ export const HomeContent = ({
                   <TextField
                     {...params}
                     label="Typ paliwa"
+                    size='small'
                   />
                 }
               />
@@ -110,13 +115,22 @@ export const HomeContent = ({
             <Button
               variant="contained"
               href={`https://punkta.pl/ubezpieczenie-oc-ac/kalkulator-oc-ac?make_name=${brandInputParam}&model_name=${modelInputParam}`}
-              // className='btn'
-              disabled={!brandInputParam || !modelInputParam || !fuelInputParam}
+              className={`btn ${themeColor}`}
+              // disabled={!brandInputParam || !modelInputParam || !fuelInputParam}
             >
-              OBLICZ SKŁADKĘ
+              <span>OBLICZ SKŁADKĘ</span>
             </Button>
           </div>
         </form>
+      </div>
+
+      <div className='color-switcher'>
+        <h2>COLORS</h2>
+        <div className='btn-container'>
+          <button onClick={setColor} className='button yellow' value='yellow'></button>
+          <button onClick={setColor} className='button blue' value='blue'></button>
+          <button onClick={setColor} className='button orange' value='orange'></button>
+        </div>
       </div>
     </div>
   )

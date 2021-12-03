@@ -6,6 +6,7 @@
 
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   height: 100vh;
   align-items: center;
@@ -13,14 +14,26 @@
   .container {
     width: 300px;
     height: 510px;
-    border: 1px solid #efefef;
+    box-shadow: 0px 1px 3px #00000033;
     text-align: center;
 
-    .logo {
+    .header {
       background-color: #F5F5F5;
       height: 210px;
       border-radius: 0 0 125px 125px;
       padding: 12px 25px 0;
+
+      &.yellow {
+        background-color: #ffcc00;
+      }
+
+      &.blue {
+        background-color: #007BC1;
+      }
+
+      &.orange {
+        background-color: #fc6c47;
+      }
 
       .paragraph {
         height: 49px;
@@ -34,10 +47,22 @@
     }
 
     .form-container {
-      padding: 29px 25px 34px;
+      padding: 29px 25px 36px;
 
       .select-container {
         .select-item {
+          // .MuiInputLabel-formControl {
+          //   font-size: 12px
+          // }
+
+          .MuiInputBase-input {
+            height: 1.563rem;
+            text-align: left;
+            letter-spacing: 0.11px;
+            color: #00000099;
+            opacity: 1;
+          }
+
           &:first-child {
             margin-bottom: 20px;
           }
@@ -63,6 +88,8 @@
         margin-top: 33px;
         
         .btn {
+          display: flex;
+          justify-content: flex-start;
           height: 38px;
           width: 100%;
           background: #FFCC00 url("../../assets/baseline-arrow_forward-24px.png") 90% 50% no-repeat padding-box;
@@ -74,6 +101,51 @@
           opacity: 1;
           text-align: left;
           padding-left: 31px;
+          font: normal normal normal 15px/20px Roboto;
+
+          &.yellow {
+            background-color: #ffcc00;
+          }
+  
+          &.blue {
+            background-color: #007BC1;
+          }
+  
+          &.orange {
+            background-color: #fc6c47;
+          }
+        }
+      }
+    }
+  }
+
+  .color-switcher {
+    text-align: center;
+    margin-top: 20px;
+
+    .btn-container {
+      width: 300px;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+
+      .button {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        border: none;
+        cursor: pointer;
+
+        &.yellow {
+          background-color: #ffcc00;
+        }
+
+        &.blue {
+          background-color: #007BC1;
+        }
+
+        &.orange {
+          background-color: #fc6c47;
         }
       }
     }
