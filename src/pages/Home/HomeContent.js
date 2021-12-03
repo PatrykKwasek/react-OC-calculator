@@ -116,7 +116,7 @@ export const HomeContent = ({
               variant="contained"
               href={`https://punkta.pl/ubezpieczenie-oc-ac/kalkulator-oc-ac?make_name=${brandInputParam}&model_name=${modelInputParam}`}
               className={`btn ${themeColor}`}
-              // disabled={!brandInputParam || !modelInputParam || !fuelInputParam}
+              disabled={!brandInputParam || !modelInputParam || !fuelInputParam}
             >
               <span>OBLICZ SKŁADKĘ</span>
             </Button>

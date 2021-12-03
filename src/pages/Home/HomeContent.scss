@@ -114,6 +114,12 @@
           &.orange {
             background-color: #fc6c47;
           }
+
+          &.Mui-disabled {
+            color: rgba(0, 0, 0, 0.26);
+            box-shadow: none;
+            background-color: rgba(0, 0, 0, 0.12);
+          }
         }
       }
     }
