@@ -17,14 +17,15 @@ export const Home = () => {
   const [fuelInputParam, setFuelInputParam] = useState('');
   const [fuels, setFuels] = useState([]);
 
-  const [themeColor, setThemeColor] = useState(localStorage.getItem('widget-theme-color') || 'orange');
+  const [themeColor, setThemeColor] = useState(
+    localStorage.getItem('widget-theme-color') || 'orange'
+  );
 
   const getInitialData = () => {
     getData('')
       .then(response => {
         setBrands(response.data);
       })
-
 
     if (brandParam.make_name) {
       getData(`${brandParam.make_name}/models`).then(response => {
