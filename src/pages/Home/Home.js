@@ -17,9 +17,32 @@ export const Home = () => {
   const [fuelInputParam, setFuelInputParam] = useState('');
   const [fuels, setFuels] = useState([]);
 
-  const [themeColor, setThemeColor] = useState(
-    localStorage.getItem('widget-theme-color') || 'orange'
-  );
+  const [themeColor, setThemeColor] = useState('');
+
+  const getDataFromLocalStorage = () => {
+    if (JSON.parse(localStorage.getItem('brandName')) === null) {
+      localStorage.setItem('brandName', JSON.stringify({make_code: "351", make_name: "ACURA"}));
+      localStorage.setItem('modelName', JSON.stringify({model_name: "Integra"}));
+      localStorage.setItem('fuelName', JSON.stringify({fuel_code: "", fuel_name: ""}));
+    } else {
+      setBrandParam(JSON.parse(localStorage.getItem('brandName')))
+    }
+
+    if (JSON.parse(localStorage.getItem('modelName')) === null) {
+      localStorage.setItem('modelName', JSON.stringify({model_name: ""}));
+      setModelParam({model_name: ""});
+    } else {
+      setModelParam(JSON.parse(localStorage.getItem('modelName')))
+    }
+
+    if (JSON.parse(localStorage.getItem('fuelName')) === null) {
+      localStorage.setItem('fuelName', JSON.stringify({fuel_code: "", fuel_name: ""}));
+    } else {
+      setFuelParam(JSON.parse(localStorage.getItem('fuelName')))
+    }
+
+    setThemeColor(localStorage.getItem('widget-theme-color') || 'orange')
+  }
 
   const getInitialData = () => {
     getData('')
@@ -41,8 +64,12 @@ export const Home = () => {
   }
 
   useEffect(() => {
+    getDataFromLocalStorage();
+  }, []);
+
+  useEffect(() => {
     getInitialData();
-  }, [])
+  }, [brandParam, modelParam, fuelParam])
 
   const handleBrand = (event, values) => {
     getData(`${values.make_name}/models`).then(response => {
@@ -50,8 +77,11 @@ export const Home = () => {
     });
 
     setBrandParam(values);
+    localStorage.setItem('brandName', JSON.stringify(values));
     setModelParam('');
     setFuelParam('');
+    localStorage.setItem('modelName', JSON.stringify({model_name: ""}));
+    localStorage.setItem('fuelName', JSON.stringify({fuel_code: "", fuel_name: ""}));
     setFuels([])
   }
 
@@ -61,11 +91,18 @@ export const Home = () => {
     });
 
     setModelParam(values);
+    localStorage.setItem('modelName', JSON.stringify(values));
     setFuelParam('');
+    localStorage.setItem('fuelName', JSON.stringify({fuel_code: "", fuel_name: ""}));
+  }
+
+  const handleFuel = (event, values) => {
+    setFuelParam(values);
+    localStorage.setItem('fuelName', JSON.stringify(values));
   }
 
   const setColor = (e) => {
-    const {value} = e.target;
+    const { value } = e.target;
     localStorage.setItem('widget-theme-color', value);
     setThemeColor(value);
   }
@@ -83,7 +120,7 @@ export const Home = () => {
       setModelInputParam={setModelInputParam}
       models={models}
       fuelParam={fuelParam}
-      setFuelParam={setFuelParam}
+      handleFuel={handleFuel}
       fuelInputParam={fuelInputParam}
       setFuelInputParam={setFuelInputParam}
       fuels={fuels}

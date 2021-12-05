@@ -2,6 +2,8 @@ import React from 'react';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ButtonUnstyled from '@mui/base/ButtonUnstyled';
 import TextField from '@mui/material/TextField';
 
 import logo from '../../assets/Logotyp-Punkta.png';
@@ -20,7 +22,7 @@ export const HomeContent = ({
   setModelInputParam,
   models,
   fuelParam,
-  setFuelParam,
+  handleFuel,
   fuelInputParam,
   setFuelInputParam,
   fuels,
@@ -89,9 +91,7 @@ export const HomeContent = ({
               <Autocomplete
                 disableClearable
                 value={fuelParam}
-                onChange={(event, newValue) => {
-                  setFuelParam(newValue);
-                }}
+                onChange={handleFuel}
                 inputValue={fuelInputParam}
                 onInputChange={(event, newInputValue) => {
                   setFuelInputParam(newInputValue);
@@ -126,11 +126,24 @@ export const HomeContent = ({
 
       <div className='color-switcher'>
         <h2>COLORS</h2>
-        <div className='btn-container'>
-          <button onClick={setColor} className='button yellow' value='yellow'></button>
-          <button onClick={setColor} className='button blue' value='blue'></button>
-          <button onClick={setColor} className='button orange' value='orange'></button>
-        </div>
+
+        <ButtonGroup className='btn-container'>
+          <ButtonUnstyled 
+            onClick={setColor} 
+            className='button yellow' 
+            value='yellow'
+          />
+          <ButtonUnstyled 
+            onClick={setColor} 
+            className='button blue' 
+            value='blue'
+          />
+          <ButtonUnstyled 
+            onClick={setColor} 
+            className='button orange' 
+            value='orange'
+          />
+        </ButtonGroup>
       </div>
     </div>
   )
