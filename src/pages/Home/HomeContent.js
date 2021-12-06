@@ -6,6 +6,8 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ButtonUnstyled from '@mui/base/ButtonUnstyled';
 import TextField from '@mui/material/TextField';
 
+import { Image } from '../../components/Image/Image';
+
 import logo from '../../assets/Logotyp-Punkta.png';
 
 import './HomeContent.scss';
@@ -33,7 +35,7 @@ export const HomeContent = ({
     <div className='wrapper'>
       <div className='container'>
         <div className={`header ${themeColor}`}>
-          <img src={logo} alt='logo' />
+          <Image src={logo} alt='logo' className='logo' />
 
           <div className='paragraph'>
             <span>OSZCZĘDŹ NAWET 580 ZŁOTYCH NA AC</span>
@@ -54,6 +56,7 @@ export const HomeContent = ({
                 options={brands}
                 className='select'
                 getOptionLabel={option => option.make_name || ''}
+                isOptionEqualToValue={(option, value) => option.make_name !== value.make_name}
                 renderInput={(params) =>
                   <TextField
                     {...params}
@@ -77,6 +80,7 @@ export const HomeContent = ({
                 className='select'
                 disabled={models.length === 0}
                 getOptionLabel={option => option.model_name || ''}
+                isOptionEqualToValue={(option, value) => option.model_name !== value.model_name}
                 renderInput={(params) =>
                   <TextField
                     {...params}
@@ -100,6 +104,7 @@ export const HomeContent = ({
                 className='select'
                 disabled={fuels.length === 0}
                 getOptionLabel={option => option.fuel_name || ''}
+                isOptionEqualToValue={(option, value) => option.fuel_name !== value.fuel_name}
                 renderInput={(params) =>
                   <TextField
                     {...params}
